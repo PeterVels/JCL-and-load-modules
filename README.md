@@ -1,5 +1,9 @@
 # A backup for JCL and loads #
 
+## FTPTRACE ##
+
+Very useful when you can't figure out why FTPS isn't working.  Credit: Wendell Lovewell.
+
 ## PDS2TARZ ##
 
 A colleague requested a method of downloading all members of several PDSes.  This job creates a compressed tarball of each library,
