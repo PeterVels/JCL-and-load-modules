@@ -54,7 +54,6 @@ export PDS=&PDS     ;
 pax ${OPTIONS} -f ${LLQ}_ASCII.tar.Z ${LLQ} ;
 rm -rv ${LLQ} ;
 ls -l ${LLQ}* ;
-//* tsocmd "SEND '&LLQ._ASCII.tar.Z' U(&SYSUID)"
 //STDERR   DD   SYSOUT=*
 //STDOUT   DD   SYSOUT=Z
 //         PEND
