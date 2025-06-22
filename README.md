@@ -1,4 +1,4 @@
-# A backup for my useful JCL #
+# A backup for JCL and loads#
 
 ## PDS2TARZ ##
 
