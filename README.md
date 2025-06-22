@@ -1,4 +1,4 @@
-# A backup for JCL and loads#
+# A backup for JCL and loads #
 
 ## PDS2TARZ ##
 
