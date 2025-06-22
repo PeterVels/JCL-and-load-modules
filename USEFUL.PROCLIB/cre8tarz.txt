@@ -1,0 +1,60 @@
+//*----------------------------------------------------------
+//* Archive PDS members into a Window-compatible tar file
+//*----------------------------------------------------------
+//CRE8TARZ PROC HLQ=CUABNC.TCS.D
+//         EXPORT SYMLIST=*
+//         SET HLQ=&HLQ,LLQ=&LLQ
+//         SET PDS=&HLQ..&LLQ
+//         SET OPTIONS='-w -z -o from=IBM-1047,to=ISO8859-1'
+//*                      |  |         |           |
+//*                      |  |         V           V
+//*                      |  |       EBCDIC      ASCII
+//*                      |  V
+//*                      V  compress
+//*                    write
+//*----------------------------------------------------------
+//* Make a directory in OMVS.  Don't crash if it exists
+//*----------------------------------------------------------
+//MKDIR    EXEC PGM=BPXBATCH,REGION=0M
+//STDOUT   DD SYSOUT=*
+//STDERR   DD SYSOUT=*
+//STDPARM  DD *,SYMBOLS=EXECSYS
+sh set -x; mkdir -p /tmp/&LLQ
+//*----------------------------------------------------------
+//* Copy all members from the PDS to the UNIX directory
+//*----------------------------------------------------------
+//BATCHPDF EXEC PGM=IKJEFT1B,DYNAMNBR=20,REGION=0M
+//SYSEXEC  DD DISP=SHR,DSN=SYS1.SBPXEXEC BPX
+//ISPMLIB  DD DISP=SHR,DSN=SYS1.SBPXMENU BPX
+//         DD DISP=SHR,DSN=ISP.SISPMENU      ISPF
+//ISPPLIB  DD DISP=SHR,DSN=SYS1.SBPXPENU BPX
+//         DD DISP=SHR,DSN=ISP.SISPPENU      ISPF
+//ISPSLIB  DD DISP=SHR,DSN=ISP.SISPSENU      ISPF
+//ISPTLIB  DD DISP=SHR,DSN=SYS1.SBPXTENU BPX
+//         DD DISP=SHR,DSN=ISP.SISPTENU      ISPF
+//ISPPROF  DD DISP=(NEW,PASS),SPACE=(TRK,(9,9,9)),LRECL=80,RECFM=FB
+//ISPLLIB  DD DISP=SHR,DSN=ISP.SISPLOAD      ISPF
+//ISPLOG   DD DISP=(NEW,PASS),LRECL=121,SPACE=(TRK,(1,1)),RECFM=FB
+//ISPLST   DD DISP=(NEW,PASS),LRECL=121,SPACE=(TRK,(1,1)),RECFM=FB
+//ISPPMSG  DD DISP=(NEW,PASS),LRECL=121,SPACE=(TRK,(1,1)),RECFM=FB
+//SYSTSPRT DD SYSOUT=Z
+//SYSTSIN  DD *,SYMBOLS=EXECSYS
+ ISPSTART CMD(%OPUTX +
+              '&PDS' +
+              '/tmp/&LLQ')
+//*---------------------------------------------------------
+//OMVS     EXEC PGM=BPXBATCH
+//STDPARM  DD *,SYMBOLS=JCLONLY
+SH
+set -x;
+cd /tmp ;
+export OPTIONS='&OPTIONS' ;
+export LLQ=&LLQ ;
+export PDS=&PDS     ;
+pax ${OPTIONS} -f ${LLQ}_ASCII.tar.Z ${LLQ} ;
+rm -rv ${LLQ} ;
+ls -l ${LLQ}* ;
+//* tsocmd "SEND '&LLQ._ASCII.tar.Z' U(&SYSUID)"
+//STDERR   DD   SYSOUT=*
+//STDOUT   DD   SYSOUT=Z
+//         PEND
