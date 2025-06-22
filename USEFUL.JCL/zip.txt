@@ -1,0 +1,10 @@
+//ZIP      JOB 2486,'zip a flat file'
+//COMPRESS EXEC PGM=ZIP,
+// PARM='/-r -j -v -@ USEFUL.ZIP'
+//STEPLIB  DD DISP=SHR,DSN=<hlq>.USEFUL.LOAD
+//SYSPRINT DD SYSOUT=*
+//SYSOUT   DD SYSOUT=*
+//CEEDUMP  DD SYSOUT=*
+//SYSIN    DD *,DLM=##
+'<hlq>.SOME.FLAT.FILE'
+##
