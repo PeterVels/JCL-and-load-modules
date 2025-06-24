@@ -6,9 +6,9 @@ Very useful when you can't figure out why FTPS isn't working.  Credit: Wendell L
 
 ## INLINE ##
 
-![INLINE](INLINE.png)
+A demonstration of how to run a Rexx in a single step in JCL.  I wish I had known this trick years ago!  GitHub seems to have lost the 1-byte parameter, hence the screenshot below.  Put HEX on (either the whole member, or just that 1 line) and make sure you have a 1-byte parameter whose value is binary zeros; hex zero; x'00' - however you want to express it in English.
 
-A demonstration of how to run a Rexx in a single step in JCL.  I wish I had known this trick years ago!
+![INLINE](INLINE.png)
 
 ## PDS2TARZ ##
 
